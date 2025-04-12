@@ -1,0 +1,33 @@
+{
+  "name": "@mapwhit/map-gestures",
+  "version": "0.0.0",
+  "description": "Handles map touch and mouse gestures: zoom, rotate, pan etc.",
+  "author": {
+    "name": "Damian Krzeminski",
+    "email": "pirxpilot@furkot.com",
+    "url": "https://pirxpilot.me"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mapwhit/map-gestures.git"
+  },
+  "type": "module",
+  "exports": "./lib/map-gestures.js",
+  "license": "BSD-3-Clause",
+  "keywords": [
+    "map-gestures",
+    "mouse gestures",
+    "touch gestures"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "@biomejs/biome": "2.1.2"
+  },
+  "scripts": {
+    "test": "make check"
+  },
+  "files": [
+    "index.js",
+    "lib"
+  ]
+}
