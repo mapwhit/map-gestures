@@ -19,9 +19,16 @@
     "mouse gestures",
     "touch gestures"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "@mapbox/point-geometry": "^1.1.0",
+    "@mapbox/unitbezier": "^0.0.1"
+  },
   "devDependencies": {
-    "@biomejs/biome": "2.1.2"
+    "@biomejs/biome": "2.1.2",
+    "@mapwhit/tilerenderer": "^0.50.0",
+    "canvas": "^3.1.0",
+    "gl": "^8.1.6",
+    "jsdom": "^26.1.0"
   },
   "scripts": {
     "test": "make check"
