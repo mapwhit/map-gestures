@@ -30,6 +30,9 @@
     "gl": "^8.1.6",
     "jsdom": "^26.1.0"
   },
+  "resolutions": {
+    "@mapwhit/tilerenderer": "mapwhit/tilerenderer#map-gestures-test"
+  },
   "scripts": {
     "test": "make check"
   },

@@ -11,4 +11,5 @@ jobs:
       - run: nohup Xvfb &
           echo "DISPLAY=:0" >> $GITHUB_ENV
       - run: yarn install
+      - run: make -C node_modules/@mapwhit/tilerenderer prebuild
       - run: make check
