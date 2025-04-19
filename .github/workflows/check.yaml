@@ -8,5 +8,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
+      - run: nohup Xvfb &
+          echo "DISPLAY=:0" >> $GITHUB_ENV
       - run: yarn install
       - run: make check
