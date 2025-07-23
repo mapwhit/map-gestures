@@ -25,13 +25,10 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.1.2",
-    "@mapwhit/tilerenderer": "^0.50.0",
+    "@mapwhit/tilerenderer": "^0.51.0",
     "canvas": "^3.1.0",
     "gl": "^8.1.6",
     "jsdom": "^26.1.0"
-  },
-  "resolutions": {
-    "@mapwhit/tilerenderer": "mapwhit/tilerenderer#map-gestures-test"
   },
   "scripts": {
     "test": "make check"
