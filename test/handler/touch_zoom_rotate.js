@@ -15,7 +15,7 @@ test('TouchZoomRotateHandler', async t => {
   await t.test(
     'TouchZoomRotateHandler fires zoomstart, zoom, and zoomend events at appropriate times in response to a pinch-zoom gesture',
     t => {
-      const map = createMap();
+      const { map } = createMap();
 
       const zoomstart = t.mock.fn();
       const zoom = t.mock.fn();
@@ -71,7 +71,7 @@ test('TouchZoomRotateHandler', async t => {
   await t.test(
     'TouchZoomRotateHandler fires rotatestart, rotate, and rotateend events at appropriate times in response to a pinch-rotate gesture',
     t => {
-      const map = createMap();
+      const { map } = createMap();
 
       const rotatestart = t.mock.fn();
       const rotate = t.mock.fn();
@@ -127,7 +127,7 @@ test('TouchZoomRotateHandler', async t => {
   await t.test(
     'TouchZoomRotateHandler does not begin a gesture if preventDefault is called on the touchstart event',
     t => {
-      const map = createMap();
+      const { map } = createMap();
 
       map.on('touchstart', e => e.preventDefault());
 
@@ -160,8 +160,8 @@ test('TouchZoomRotateHandler', async t => {
   );
 
   await t.test('TouchZoomRotateHandler starts zoom immediately when rotation disabled', t => {
-    const map = createMap();
-    map.touchZoomRotate.disableRotation();
+    const { map, gestures } = createMap();
+    gestures.touchZoomRotate.disableRotation();
 
     const zoomstart = t.mock.fn();
     const zoom = t.mock.fn();

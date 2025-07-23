@@ -32,8 +32,12 @@ export function createWindow() {
 export function createMap(options = {}) {
   const container = window.document.createElement('div');
   window.document.body.appendChild(container);
-  const opts = { container, mapGestures, ...options };
-  return new tilerenderer.Map(opts);
+  const opts = { container, ...options };
+  const map = new tilerenderer.Map(opts);
+  return {
+    map,
+    gestures: mapGestures(map, opts)
+  };
 }
 
 export const simulate = {

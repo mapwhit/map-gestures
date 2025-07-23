@@ -13,14 +13,14 @@ test('Map#isZooming', async t => {
   });
 
   await t.test('Map#isZooming returns false by default', t => {
-    const map = createMap();
+    const { map } = createMap();
     t.assert.equal(map.isZooming(), false);
     map.remove();
   });
 
   await t.test('Map#isZooming returns true during a camera zoom animation', async t => {
     const { promise, resolve } = Promise.withResolvers();
-    const map = createMap();
+    const { map } = createMap();
 
     map.on('zoomstart', () => {
       t.assert.equal(map.isZooming(), true);
@@ -39,7 +39,7 @@ test('Map#isZooming', async t => {
 
   await t.test('Map#isZooming returns true when scroll zooming', async t => {
     const { promise, resolve } = Promise.withResolvers();
-    const map = createMap();
+    const { map } = createMap();
 
     map.on('zoomstart', () => {
       t.assert.equal(map.isZooming(), true);
@@ -65,7 +65,7 @@ test('Map#isZooming', async t => {
 
   await t.test('Map#isZooming returns true when double-click zooming', async t => {
     const { promise, resolve } = Promise.withResolvers();
-    const map = createMap();
+    const { map } = createMap();
 
     map.on('zoomstart', () => {
       t.assert.equal(map.isZooming(), true);

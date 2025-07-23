@@ -13,7 +13,7 @@ test('BoxZoomHandler', async t => {
   });
 
   await t.test('BoxZoomHandler fires boxzoomstart and boxzoomend events at appropriate times', t => {
-    const map = createMap();
+    const { map } = createMap();
 
     const boxzoomstart = t.mock.fn();
     const boxzoomend = t.mock.fn();
@@ -40,10 +40,10 @@ test('BoxZoomHandler', async t => {
   });
 
   await t.test('BoxZoomHandler avoids conflicts with DragPanHandler when disabled and reenabled (#2237)', t => {
-    const map = createMap();
+    const { map, gestures } = createMap();
 
-    map.boxZoom.disable();
-    map.boxZoom.enable();
+    gestures.boxZoom.disable();
+    gestures.boxZoom.enable();
 
     const boxzoomstart = t.mock.fn();
     const boxzoomend = t.mock.fn();
@@ -82,7 +82,7 @@ test('BoxZoomHandler', async t => {
   });
 
   await t.test('BoxZoomHandler does not begin a box zoom if preventDefault is called on the mousedown event', t => {
-    const map = createMap();
+    const { map } = createMap();
 
     map.on('mousedown', e => e.preventDefault());
 
