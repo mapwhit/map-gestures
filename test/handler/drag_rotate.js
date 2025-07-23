@@ -15,7 +15,7 @@ test('DragRotateHandler', async t => {
   await t.test(
     'DragRotateHandler fires rotatestart, rotate, and rotateend events at appropriate times in response to a right-click drag',
     t => {
-      const map = createMap();
+      const { map } = createMap();
 
       const rotatestart = t.mock.fn();
       const rotate = t.mock.fn();
@@ -48,7 +48,7 @@ test('DragRotateHandler', async t => {
   );
 
   await t.test('DragRotateHandler stops firing events after mouseup', t => {
-    const map = createMap();
+    const { map } = createMap();
 
     const spy = t.mock.fn();
     map.on('rotatestart', spy);
@@ -72,7 +72,7 @@ test('DragRotateHandler', async t => {
   await t.test(
     'DragRotateHandler fires rotatestart, rotate, and rotateend events at appropriate times in response to a control-left-click drag',
     t => {
-      const map = createMap();
+      const { map } = createMap();
 
       const rotatestart = t.mock.fn();
       const rotate = t.mock.fn();
@@ -105,7 +105,7 @@ test('DragRotateHandler', async t => {
   );
 
   await t.test('DragRotateHandler pitches in response to a right-click drag by default', t => {
-    const map = createMap();
+    const { map } = createMap();
 
     const pitchstart = t.mock.fn();
     const pitch = t.mock.fn();
@@ -128,7 +128,7 @@ test('DragRotateHandler', async t => {
   });
 
   await t.test('DragRotateHandler pitches in response to a control-left-click drag', t => {
-    const map = createMap();
+    const { map } = createMap();
 
     const pitchstart = t.mock.fn();
     const pitch = t.mock.fn();
@@ -151,7 +151,7 @@ test('DragRotateHandler', async t => {
   });
 
   await t.test('DragRotateHandler does not pitch if given pitchWithRotate: false', t => {
-    const map = createMap({ pitchWithRotate: false });
+    const { map } = createMap({ pitchWithRotate: false });
 
     const spy = t.mock.fn();
 
@@ -175,9 +175,9 @@ test('DragRotateHandler', async t => {
   });
 
   await t.test('DragRotateHandler does not rotate or pitch when disabled', t => {
-    const map = createMap();
+    const { map, gestures } = createMap();
 
-    map.dragRotate.disable();
+    gestures.dragRotate.disable();
 
     const spy = t.mock.fn();
 
@@ -200,7 +200,7 @@ test('DragRotateHandler', async t => {
 
   await t.test('DragRotateHandler ensures that map.isMoving() returns true during drag', t => {
     // The bearingSnap option here ensures that the moveend event is sent synchronously.
-    const map = createMap({ bearingSnap: 0 });
+    const { map } = createMap({ bearingSnap: 0 });
 
     simulate.mousedown(map.getCanvas(), { buttons: 2, button: 2 });
     simulate.mousemove(map.getCanvas(), { buttons: 2 });
@@ -214,7 +214,7 @@ test('DragRotateHandler', async t => {
 
   await t.test('DragRotateHandler fires move events', t => {
     // The bearingSnap option here ensures that the moveend event is sent synchronously.
-    const map = createMap({ bearingSnap: 0 });
+    const { map } = createMap({ bearingSnap: 0 });
 
     const movestart = t.mock.fn();
     const move = t.mock.fn();
@@ -238,7 +238,7 @@ test('DragRotateHandler', async t => {
 
   await t.test('DragRotateHandler includes originalEvent property in triggered events', t => {
     // The bearingSnap option here ensures that the moveend event is sent synchronously.
-    const map = createMap({ bearingSnap: 0 });
+    const { map } = createMap({ bearingSnap: 0 });
 
     const rotatestart = t.mock.fn();
     const rotate = t.mock.fn();
@@ -282,7 +282,7 @@ test('DragRotateHandler', async t => {
   });
 
   await t.test('DragRotateHandler responds to events on the canvas container (#1301)', t => {
-    const map = createMap();
+    const { map } = createMap();
 
     const rotatestart = t.mock.fn();
     const rotate = t.mock.fn();
@@ -305,7 +305,7 @@ test('DragRotateHandler', async t => {
   });
 
   await t.test('DragRotateHandler prevents mousemove events from firing during a drag (#1555)', t => {
-    const map = createMap();
+    const { map } = createMap();
 
     const mousemove = t.mock.fn();
     map.on('mousemove', mousemove);
@@ -323,7 +323,7 @@ test('DragRotateHandler', async t => {
   await t.test(
     'DragRotateHandler ends a control-left-click drag on mouseup even when the control key was previously released (#1888)',
     t => {
-      const map = createMap();
+      const { map } = createMap();
 
       const rotatestart = t.mock.fn();
       const rotate = t.mock.fn();
@@ -347,7 +347,7 @@ test('DragRotateHandler', async t => {
   );
 
   await t.test('DragRotateHandler ends rotation if the window blurs (#3389)', t => {
-    const map = createMap();
+    const { map } = createMap();
 
     const rotatestart = t.mock.fn();
     const rotate = t.mock.fn();
@@ -370,7 +370,7 @@ test('DragRotateHandler', async t => {
   });
 
   await t.test('DragRotateHandler requests a new render frame after each mousemove event', t => {
-    const map = createMap();
+    const { map } = createMap();
     const requestRenderFrame = t.mock.method(map, '_requestRenderFrame');
 
     simulate.mousedown(map.getCanvas(), { buttons: 2, button: 2 });
@@ -389,7 +389,7 @@ test('DragRotateHandler', async t => {
 
   await t.test('DragRotateHandler can interleave with another handler', t => {
     // https://github.com/mapbox/mapbox-gl-js/issues/6106
-    const map = createMap();
+    const { map } = createMap();
 
     const rotatestart = t.mock.fn();
     const rotate = t.mock.fn();
@@ -435,8 +435,8 @@ test('DragRotateHandler', async t => {
   });
 
   await t.test('DragRotateHandler does not begin a drag on left-button mousedown without the control key', t => {
-    const map = createMap();
-    map.dragPan.disable();
+    const { map, gestures } = createMap();
+    gestures.dragPan.disable();
 
     const rotatestart = t.mock.fn();
     const rotate = t.mock.fn();
@@ -468,8 +468,8 @@ test('DragRotateHandler', async t => {
   });
 
   await t.test('DragRotateHandler does not end a right-button drag on left-button mouseup', t => {
-    const map = createMap();
-    map.dragPan.disable();
+    const { map, gestures } = createMap();
+    gestures.dragPan.disable();
 
     const rotatestart = t.mock.fn();
     const rotate = t.mock.fn();
@@ -519,8 +519,8 @@ test('DragRotateHandler', async t => {
   });
 
   await t.test('DragRotateHandler does not end a control-left-button drag on right-button mouseup', t => {
-    const map = createMap();
-    map.dragPan.disable();
+    const { map, gestures } = createMap();
+    gestures.dragPan.disable();
 
     const rotatestart = t.mock.fn();
     const rotate = t.mock.fn();
@@ -570,7 +570,7 @@ test('DragRotateHandler', async t => {
   });
 
   await t.test('DragRotateHandler does not begin a drag if preventDefault is called on the mousedown event', t => {
-    const map = createMap();
+    const { map } = createMap();
 
     map.on('mousedown', e => e.preventDefault());
 
@@ -601,9 +601,9 @@ test('DragRotateHandler', async t => {
   Promise.all(
     ['rotatestart', 'rotate'].map(async event => {
       await t.test(`DragRotateHandler can be disabled on ${event} (#2419)`, t => {
-        const map = createMap();
+        const { map, gestures } = createMap();
 
-        map.on(event, () => map.dragRotate.disable());
+        map.on(event, () => gestures.dragRotate.disable());
 
         const rotatestart = t.mock.fn();
         const rotate = t.mock.fn();
@@ -623,7 +623,7 @@ test('DragRotateHandler', async t => {
         t.assert.equal(rotate.mock.callCount(), event === 'rotatestart' ? 0 : 1);
         t.assert.equal(rotateend.mock.callCount(), 1);
         t.assert.equal(map.isMoving(), false);
-        t.assert.equal(map.dragRotate.isEnabled(), false);
+        t.assert.equal(gestures.dragRotate.isEnabled(), false);
 
         simulate.mouseup(map.getCanvas(), { buttons: 0, button: 2 });
         map._renderTaskQueue.run();
@@ -632,7 +632,7 @@ test('DragRotateHandler', async t => {
         t.assert.equal(rotate.mock.callCount(), event === 'rotatestart' ? 0 : 1);
         t.assert.equal(rotateend.mock.callCount(), 1);
         t.assert.equal(map.isMoving(), false);
-        t.assert.equal(map.dragRotate.isEnabled(), false);
+        t.assert.equal(gestures.dragRotate.isEnabled(), false);
 
         map.remove();
       });
@@ -640,7 +640,7 @@ test('DragRotateHandler', async t => {
   );
 
   await t.test('DragRotateHandler can be disabled after mousedown (#2419)', t => {
-    const map = createMap();
+    const { map, gestures } = createMap();
 
     const rotatestart = t.mock.fn();
     const rotate = t.mock.fn();
@@ -653,7 +653,7 @@ test('DragRotateHandler', async t => {
     simulate.mousedown(map.getCanvas(), { buttons: 2, button: 2 });
     map._renderTaskQueue.run();
 
-    map.dragRotate.disable();
+    gestures.dragRotate.disable();
 
     simulate.mousemove(map.getCanvas(), { buttons: 2 });
     map._renderTaskQueue.run();
@@ -662,7 +662,7 @@ test('DragRotateHandler', async t => {
     t.assert.equal(rotate.mock.callCount(), 0);
     t.assert.equal(rotateend.mock.callCount(), 0);
     t.assert.equal(map.isMoving(), false);
-    t.assert.equal(map.dragRotate.isEnabled(), false);
+    t.assert.equal(gestures.dragRotate.isEnabled(), false);
 
     simulate.mouseup(map.getCanvas(), { buttons: 0, button: 2 });
     map._renderTaskQueue.run();
@@ -671,7 +671,7 @@ test('DragRotateHandler', async t => {
     t.assert.equal(rotate.mock.callCount(), 0);
     t.assert.equal(rotateend.mock.callCount(), 0);
     t.assert.equal(map.isMoving(), false);
-    t.assert.equal(map.dragRotate.isEnabled(), false);
+    t.assert.equal(gestures.dragRotate.isEnabled(), false);
 
     map.remove();
   });

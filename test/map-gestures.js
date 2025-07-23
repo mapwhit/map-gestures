@@ -15,30 +15,30 @@ test('map-gestures', async t => {
 
   await t.test('should enable handlers for interactive map', t => {
     t.assert.equal(typeof mapGestures, 'function');
-    const map = createMap({ interactive: true, mapGestures });
+    const { map, gestures } = createMap({ interactive: true });
 
-    t.assert.ok(map.boxZoom.isEnabled());
-    t.assert.ok(map.doubleClickZoom.isEnabled());
-    t.assert.ok(map.dragPan.isEnabled());
-    t.assert.ok(map.dragRotate.isEnabled());
-    t.assert.ok(map.keyboard.isEnabled());
-    t.assert.ok(map.scrollZoom.isEnabled());
-    t.assert.ok(map.touchZoomRotate.isEnabled());
+    t.assert.ok(gestures.boxZoom.isEnabled());
+    t.assert.ok(gestures.doubleClickZoom.isEnabled());
+    t.assert.ok(gestures.dragPan.isEnabled());
+    t.assert.ok(gestures.dragRotate.isEnabled());
+    t.assert.ok(gestures.keyboard.isEnabled());
+    t.assert.ok(gestures.scrollZoom.isEnabled());
+    t.assert.ok(gestures.touchZoomRotate.isEnabled());
 
     map.remove();
   });
 
   await t.test('should disable handlers for interactive map', t => {
     t.assert.equal(typeof mapGestures, 'function');
-    const map = createMap({ interactive: false, mapGestures });
+    const { map, gestures } = createMap({ interactive: false });
 
-    t.assert.ok(!map.boxZoom.isEnabled());
-    t.assert.ok(!map.doubleClickZoom.isEnabled());
-    t.assert.ok(!map.dragPan.isEnabled());
-    t.assert.ok(!map.dragRotate.isEnabled());
-    t.assert.ok(!map.keyboard.isEnabled());
-    t.assert.ok(!map.scrollZoom.isEnabled());
-    t.assert.ok(!map.touchZoomRotate.isEnabled());
+    t.assert.ok(!gestures.boxZoom.isEnabled());
+    t.assert.ok(!gestures.doubleClickZoom.isEnabled());
+    t.assert.ok(!gestures.dragPan.isEnabled());
+    t.assert.ok(!gestures.dragRotate.isEnabled());
+    t.assert.ok(!gestures.keyboard.isEnabled());
+    t.assert.ok(!gestures.scrollZoom.isEnabled());
+    t.assert.ok(!gestures.touchZoomRotate.isEnabled());
 
     map.remove();
   });
@@ -55,18 +55,18 @@ test('map-gestures', async t => {
   await Promise.all(
     handlerNames.map(handlerName =>
       t.test(`disables "${handlerName}" handler`, t => {
-        const map = createMap({
+        const { map, gestures } = createMap({
           [handlerName]: false,
           mapGestures
         });
-        t.assert.ok(!map[handlerName].isEnabled());
+        t.assert.ok(!gestures[handlerName].isEnabled());
         map.remove();
       })
     )
   );
 
   await test('Map#on adds a non-delegated event listener', t => {
-    const map = createMap();
+    const { map } = createMap();
     const onclick = t.mock.fn(function (e) {
       t.assert.equal(this, map);
       t.assert.equal(e.type, 'click');
@@ -79,7 +79,7 @@ test('map-gestures', async t => {
   });
 
   await test('Map#off removes a non-delegated event listener', t => {
-    const map = createMap();
+    const { map } = createMap();
     const onclick = t.mock.fn();
 
     map.on('click', onclick);
@@ -90,7 +90,7 @@ test('map-gestures', async t => {
   });
 
   await test('Map#on mousedown can have default behavior prevented and still fire subsequent click event', t => {
-    const map = createMap();
+    const { map } = createMap();
 
     map.on('mousedown', e => e.preventDefault());
 
@@ -104,7 +104,7 @@ test('map-gestures', async t => {
   });
 
   await test(`Map#on mousedown doesn't fire subsequent click event if mousepos changes`, t => {
-    const map = createMap();
+    const { map } = createMap();
 
     map.on('mousedown', e => e.preventDefault());
 
@@ -119,7 +119,7 @@ test('map-gestures', async t => {
   });
 
   await test('Map#on mousedown fires subsequent click event if mouse position changes less than click tolerance', t => {
-    const map = createMap(t, { clickTolerance: 4 });
+    const { map } = createMap(t, { clickTolerance: 4 });
 
     map.on('mousedown', e => e.preventDefault());
 
@@ -134,7 +134,7 @@ test('map-gestures', async t => {
   });
 
   await test('Map#on mousedown does not fire subsequent click event if mouse position changes more than click tolerance', t => {
-    const map = createMap(t, { clickTolerance: 4 });
+    const { map } = createMap(t, { clickTolerance: 4 });
 
     map.on('mousedown', e => e.preventDefault());
 
@@ -149,7 +149,7 @@ test('map-gestures', async t => {
   });
 
   await t.test('stops camera animation on mousedown when interactive', t => {
-    const map = createMap({ interactive: true });
+    const { map } = createMap({ interactive: true });
     map.flyTo({ center: [200, 0], duration: 100 });
 
     simulate.mousedown(map.getCanvasContainer());
@@ -159,7 +159,7 @@ test('map-gestures', async t => {
   });
 
   await t.test('continues camera animation on mousedown when non-interactive', t => {
-    const map = createMap({ interactive: false });
+    const { map } = createMap({ interactive: false });
     map.flyTo({ center: [200, 0], duration: 100 });
 
     simulate.mousedown(map.getCanvasContainer());
@@ -169,7 +169,7 @@ test('map-gestures', async t => {
   });
 
   await t.test('stops camera animation on touchstart when interactive', t => {
-    const map = createMap({ interactive: true });
+    const { map } = createMap({ interactive: true });
     map.flyTo({ center: [200, 0], duration: 100 });
 
     simulate.touchstart(map.getCanvasContainer());
@@ -179,7 +179,7 @@ test('map-gestures', async t => {
   });
 
   await t.test('continues camera animation on touchstart when non-interactive', t => {
-    const map = createMap({ interactive: false });
+    const { map } = createMap({ interactive: false });
     map.flyTo({ center: [200, 0], duration: 100 });
 
     simulate.touchstart(map.getCanvasContainer());

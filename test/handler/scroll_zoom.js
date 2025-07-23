@@ -22,7 +22,7 @@ test('ScrollZoomHandler', async t => {
   });
 
   await t.test('Zooms for single mouse wheel tick', t => {
-    const map = createMap();
+    const { map } = createMap();
     map._renderTaskQueue.run();
 
     // simulate a single 'wheel' event
@@ -40,7 +40,7 @@ test('ScrollZoomHandler', async t => {
   });
 
   await t.test('Zooms for single mouse wheel tick with non-magical deltaY', () => {
-    const map = createMap();
+    const { map } = createMap();
     map._renderTaskQueue.run();
 
     // Simulate a single 'wheel' event without the magical deltaY value.
@@ -51,7 +51,7 @@ test('ScrollZoomHandler', async t => {
   });
 
   await t.test('Zooms for multiple mouse wheel ticks', t => {
-    const map = createMap();
+    const { map } = createMap();
 
     map._renderTaskQueue.run();
     const startZoom = map.getZoom();
@@ -91,7 +91,7 @@ test('ScrollZoomHandler', async t => {
   });
 
   await t.test('Gracefully ignores wheel events with deltaY: 0', t => {
-    const map = createMap();
+    const { map } = createMap();
     map._renderTaskQueue.run();
 
     const startZoom = map.getZoom();
@@ -110,7 +110,7 @@ test('ScrollZoomHandler', async t => {
 
   await t.test('Gracefully handle wheel events that cancel each other out before the first scroll frame', () => {
     // See also https://github.com/mapbox/mapbox-gl-js/issues/6782
-    const map = createMap();
+    const { map } = createMap();
     map._renderTaskQueue.run();
 
     simulate.wheel(map.getCanvas(), { type: 'wheel', deltaY: -1 });
@@ -125,7 +125,7 @@ test('ScrollZoomHandler', async t => {
   });
 
   await t.test('does not zoom if preventDefault is called on the wheel event', t => {
-    const map = createMap();
+    const { map } = createMap();
 
     map.on('wheel', e => e.preventDefault());
 
@@ -142,7 +142,7 @@ test('ScrollZoomHandler', async t => {
 
   await t.test('emits one movestart event and one moveend event while zooming', t => {
     t.mock.timers.enable();
-    const map = createMap();
+    const { map } = createMap();
 
     let startCount = 0;
     map.on('movestart', () => {
@@ -182,7 +182,7 @@ test('ScrollZoomHandler', async t => {
 
   await t.test('emits one zoomstart event and one zoomend event while zooming', t => {
     t.mock.timers.enable();
-    const map = createMap();
+    const { map } = createMap();
 
     let startCount = 0;
     map.on('zoomstart', () => {

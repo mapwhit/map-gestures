@@ -13,13 +13,13 @@ test('Map#isMoving', async t => {
   });
 
   await t.test('Map#isMoving returns false by default', t => {
-    const map = createMap();
+    const { map } = createMap();
     t.assert.equal(map.isMoving(), false);
     map.remove();
   });
 
   await t.test('Map#isMoving returns true during a camera zoom animation', (t, done) => {
-    const map = createMap();
+    const { map } = createMap();
 
     map.on('zoomstart', () => {
       t.assert.equal(map.isMoving(), true);
@@ -35,7 +35,7 @@ test('Map#isMoving', async t => {
   });
 
   await t.test('Map#isMoving returns true when drag panning', (t, done) => {
-    const map = createMap();
+    const { map } = createMap();
 
     map.on('dragstart', () => {
       t.assert.equal(map.isMoving(), true);
@@ -58,7 +58,7 @@ test('Map#isMoving', async t => {
   });
 
   await t.test('Map#isMoving returns true when drag rotating', (t, done) => {
-    const map = createMap();
+    const { map } = createMap();
 
     map.on('rotatestart', () => {
       t.assert.equal(map.isMoving(), true);
@@ -81,7 +81,7 @@ test('Map#isMoving', async t => {
   });
 
   await t.test('Map#isMoving returns true when scroll zooming', (t, done) => {
-    const map = createMap();
+    const { map } = createMap();
 
     map.on('zoomstart', () => {
       t.assert.equal(map.isMoving(), true);
@@ -104,7 +104,7 @@ test('Map#isMoving', async t => {
   });
 
   await t.test('Map#isMoving returns true when drag panning and scroll zooming interleave', (t, done) => {
-    const map = createMap();
+    const { map } = createMap();
 
     map.on('dragstart', () => {
       t.assert.equal(map.isMoving(), true);

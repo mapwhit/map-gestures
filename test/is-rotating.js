@@ -13,13 +13,13 @@ test('Map#isRotating', async t => {
   });
 
   await t.test('Map#isRotating returns false by default', t => {
-    const map = createMap();
+    const { map } = createMap();
     t.assert.equal(map.isRotating(), false);
     map.remove();
   });
 
   await t.test('Map#isRotating returns true during a camera rotate animation', (t, done) => {
-    const map = createMap();
+    const { map } = createMap();
 
     map.on('rotatestart', () => {
       t.assert.equal(map.isRotating(), true);
@@ -35,7 +35,7 @@ test('Map#isRotating', async t => {
   });
 
   await t.test('Map#isRotating returns true when drag rotating', (t, done) => {
-    const map = createMap();
+    const { map } = createMap();
 
     map.on('rotatestart', () => {
       t.assert.equal(map.isRotating(), true);

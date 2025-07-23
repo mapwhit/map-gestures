@@ -12,7 +12,7 @@ test('DoubleClickZoomHandler does not zoom if preventDefault is called on the db
     globalThis.window = globalWindow;
   });
 
-  const map = createMap();
+  const { map } = createMap();
 
   map.on('dblclick', e => e.preventDefault());
 
