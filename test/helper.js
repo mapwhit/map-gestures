@@ -32,7 +32,7 @@ export function createWindow() {
 export function createMap(options = {}) {
   const container = window.document.createElement('div');
   window.document.body.appendChild(container);
-  const opts = { container, ...options };
+  const opts = { container, dispatchOwnEvents: false, ...options };
   const map = new tilerenderer.Map(opts);
   return {
     map,
