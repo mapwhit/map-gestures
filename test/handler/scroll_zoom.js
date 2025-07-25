@@ -125,7 +125,7 @@ test('ScrollZoomHandler', async t => {
   });
 
   await t.test('does not zoom if preventDefault is called on the wheel event', t => {
-    const { map } = createMap();
+    const { map } = createMap({ bubbleEventsToMap: true });
 
     map.on('wheel', e => e.preventDefault());
 

@@ -35,10 +35,18 @@ test('Map#isMoving', async t => {
   });
 
   await t.test('Map#isMoving returns true when drag panning', (t, done) => {
-    const { map } = createMap();
+    const { map, gestures } = createMap({ bubbleEventsToMap: true });
+
+    gestures.on('dragstart', () => {
+      t.assert.equal(map.isMoving(), true);
+    });
 
     map.on('dragstart', () => {
       t.assert.equal(map.isMoving(), true);
+    });
+
+    gestures.on('dragend', () => {
+      t.assert.equal(map.isMoving(), false);
     });
 
     map.on('dragend', () => {
@@ -104,7 +112,11 @@ test('Map#isMoving', async t => {
   });
 
   await t.test('Map#isMoving returns true when drag panning and scroll zooming interleave', (t, done) => {
-    const { map } = createMap();
+    const { map, gestures } = createMap({ bubbleEventsToMap: true });
+
+    gestures.on('dragstart', () => {
+      t.assert.equal(map.isMoving(), true);
+    });
 
     map.on('dragstart', () => {
       t.assert.equal(map.isMoving(), true);
@@ -118,6 +130,10 @@ test('Map#isMoving', async t => {
       t.assert.equal(map.isMoving(), true);
       simulate.mouseup(map.getCanvas());
       map._renderTaskQueue.run();
+    });
+
+    gestures.on('dragend', () => {
+      t.assert.equal(map.isMoving(), false);
     });
 
     map.on('dragend', () => {

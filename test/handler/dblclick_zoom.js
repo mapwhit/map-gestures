@@ -26,6 +26,39 @@ test('DoubleClickZoomHandler', async t => {
   });
 
   await t.test('DoubleClickZoomHandler does not zoom if preventDefault is called on the dblclick event', t => {
+    const { map, gestures } = createMap();
+
+    gestures.on('dblclick', e => e.preventDefault());
+
+    const zoom = t.mock.fn();
+    map.on('zoomstart', zoom);
+
+    simulate.dblclick(map.getCanvas());
+
+    t.assert.equal(zoom.mock.callCount(), 0);
+
+    map.remove();
+  });
+
+  await t.test(
+    'DoubleClickZoomHandler does not zoom if preventDefault is called on the bubbled to map dblclick event',
+    t => {
+      const { map } = createMap({ bubbleEventsToMap: true });
+
+      map.on('dblclick', e => e.preventDefault());
+
+      const zoom = t.mock.fn();
+      map.on('zoomstart', zoom);
+
+      simulate.dblclick(map.getCanvas());
+
+      t.assert.equal(zoom.mock.callCount(), 0);
+
+      map.remove();
+    }
+  );
+
+  await t.test('DoubleClickZoomHandler zooms if preventDefault is called on map without bubbling', t => {
     const { map } = createMap();
 
     map.on('dblclick', e => e.preventDefault());
@@ -35,7 +68,7 @@ test('DoubleClickZoomHandler', async t => {
 
     simulate.dblclick(map.getCanvas());
 
-    t.assert.equal(zoom.mock.callCount(), 0);
+    t.assert.equal(zoom.mock.callCount(), 1);
 
     map.remove();
   });

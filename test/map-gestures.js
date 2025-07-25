@@ -65,8 +65,32 @@ test('map-gestures', async t => {
     )
   );
 
+  await test('map-gestures#on adds a non-delegated event listener', t => {
+    const { map, gestures } = createMap();
+    const onclick = t.mock.fn(function (e) {
+      t.assert.equal(this, gestures);
+      t.assert.equal(e.type, 'click');
+    });
+
+    gestures.on('click', onclick);
+    simulate.click(map.getCanvas());
+
+    t.assert.equal(onclick.mock.callCount(), 1);
+  });
+
+  await test('map-gestures#off removes a non-delegated event listener', t => {
+    const { map, gestures } = createMap();
+    const onclick = t.mock.fn();
+
+    gestures.on('click', onclick);
+    gestures.off('click', onclick);
+    simulate.click(map.getCanvas());
+
+    t.assert.equal(onclick.mock.callCount(), 0);
+  });
+
   await test('Map#on adds a non-delegated event listener', t => {
-    const { map } = createMap();
+    const { map } = createMap({ bubbleEventsToMap: true });
     const onclick = t.mock.fn(function (e) {
       t.assert.equal(this, map);
       t.assert.equal(e.type, 'click');
@@ -79,7 +103,7 @@ test('map-gestures', async t => {
   });
 
   await test('Map#off removes a non-delegated event listener', t => {
-    const { map } = createMap();
+    const { map } = createMap({ bubbleEventsToMap: true });
     const onclick = t.mock.fn();
 
     map.on('click', onclick);
@@ -90,7 +114,7 @@ test('map-gestures', async t => {
   });
 
   await test('Map#on mousedown can have default behavior prevented and still fire subsequent click event', t => {
-    const { map } = createMap();
+    const { map } = createMap({ bubbleEventsToMap: true });
 
     map.on('mousedown', e => e.preventDefault());
 
@@ -104,7 +128,7 @@ test('map-gestures', async t => {
   });
 
   await test(`Map#on mousedown doesn't fire subsequent click event if mousepos changes`, t => {
-    const { map } = createMap();
+    const { map } = createMap({ bubbleEventsToMap: true });
 
     map.on('mousedown', e => e.preventDefault());
 
@@ -119,7 +143,7 @@ test('map-gestures', async t => {
   });
 
   await test('Map#on mousedown fires subsequent click event if mouse position changes less than click tolerance', t => {
-    const { map } = createMap({ clickTolerance: 4 });
+    const { map } = createMap({ clickTolerance: 4, bubbleEventsToMap: true });
 
     map.on('mousedown', e => e.preventDefault());
 
@@ -134,7 +158,7 @@ test('map-gestures', async t => {
   });
 
   await test('Map#on mousedown does not fire subsequent click event if mouse position changes more than click tolerance', t => {
-    const { map } = createMap({ clickTolerance: 3 });
+    const { map } = createMap({ clickTolerance: 3, bubbleEventsToMap: true });
 
     map.on('mousedown', e => e.preventDefault());
 
