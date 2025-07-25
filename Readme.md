@@ -14,14 +14,16 @@ $ npm install --save @mapwhit/map-gestures
 
 ## Usage
 
+Map gestures handlers are applied to map after creation.
+
 ```js
 
 import mapGestures from '@mapwhit/map-gestures';
 import tilerenderer from '@mapwhit/tilerenderer';
 
-const container = window.document.createElement('div');
-window.document.body.appendChild(container);
-const map = new tilerenderer.Map({ container, mapGestures });
+const options = {/* relevant map options */};
+const map = new tilerenderer.Map(options);
+mapGestures(map, options);
 ```
 
 ## License
