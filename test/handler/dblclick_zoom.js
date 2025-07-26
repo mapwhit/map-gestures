@@ -1,7 +1,7 @@
 import test from 'node:test';
 import { createMap, createWindow, simulate } from '../helper.js';
 
-test('DoubleClickZoomHandler does not zoom if preventDefault is called on the dblclick event', t => {
+test('DoubleClickZoomHandler', async t => {
   let globalWindow;
   t.before(() => {
     globalWindow = globalThis.window;
@@ -12,16 +12,31 @@ test('DoubleClickZoomHandler does not zoom if preventDefault is called on the db
     globalThis.window = globalWindow;
   });
 
-  const { map } = createMap();
+  await t.test('DoubleClickZoomHandler zooms on the dblclick event', t => {
+    const { map } = createMap();
 
-  map.on('dblclick', e => e.preventDefault());
+    const zoom = t.mock.fn();
+    map.on('zoomstart', zoom);
 
-  const zoom = t.mock.fn();
-  map.on('zoom', zoom);
+    simulate.dblclick(map.getCanvas());
 
-  simulate.dblclick(map.getCanvas());
+    t.assert.equal(zoom.mock.callCount(), 1);
 
-  t.assert.equal(zoom.mock.callCount(), 0);
+    map.remove();
+  });
 
-  map.remove();
+  await t.test('DoubleClickZoomHandler does not zoom if preventDefault is called on the dblclick event', t => {
+    const { map } = createMap();
+
+    map.on('dblclick', e => e.preventDefault());
+
+    const zoom = t.mock.fn();
+    map.on('zoomstart', zoom);
+
+    simulate.dblclick(map.getCanvas());
+
+    t.assert.equal(zoom.mock.callCount(), 0);
+
+    map.remove();
+  });
 });
