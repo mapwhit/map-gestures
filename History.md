@@ -1,4 +1,10 @@
 
+1.0.0 / 2025-07-27
+==================
+
+ * dispatch events ourselves and optionally bubble them to map
+ * use Event class from the same module as Map
+
 0.0.2 / 2025-07-23
 ==================
 
