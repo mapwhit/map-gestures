@@ -15,15 +15,15 @@ test('DragPanHandler', async t => {
   await t.test(
     'DragPanHandler fires dragstart, drag, and dragend events at appropriate times in response to a mouse-triggered drag',
     t => {
-      const { map } = createMap();
+      const { map, gestures } = createMap();
 
       const dragstart = t.mock.fn();
       const drag = t.mock.fn();
       const dragend = t.mock.fn();
 
-      map.on('dragstart', dragstart);
-      map.on('drag', drag);
-      map.on('dragend', dragend);
+      gestures.on('dragstart', dragstart);
+      gestures.on('drag', drag);
+      gestures.on('dragend', dragend);
 
       simulate.mousedown(map.getCanvas());
       map._renderTaskQueue.run();
@@ -47,10 +47,42 @@ test('DragPanHandler', async t => {
     }
   );
 
+  await t.test('DragPanHandler bubbles dragstart, drag, and dragend events', t => {
+    const { map } = createMap({ bubbleEventsToMap: true });
+
+    const dragstart = t.mock.fn();
+    const drag = t.mock.fn();
+    const dragend = t.mock.fn();
+
+    map.on('dragstart', dragstart);
+    map.on('drag', drag);
+    map.on('dragend', dragend);
+
+    simulate.mousedown(map.getCanvas());
+    map._renderTaskQueue.run();
+    t.assert.equal(dragstart.mock.callCount(), 0);
+    t.assert.equal(drag.mock.callCount(), 0);
+    t.assert.equal(dragend.mock.callCount(), 0);
+
+    simulate.mousemove(map.getCanvas());
+    map._renderTaskQueue.run();
+    t.assert.equal(dragstart.mock.callCount(), 1);
+    t.assert.equal(drag.mock.callCount(), 1);
+    t.assert.equal(dragend.mock.callCount(), 0);
+
+    simulate.mouseup(map.getCanvas());
+    map._renderTaskQueue.run();
+    t.assert.equal(dragstart.mock.callCount(), 1);
+    t.assert.equal(drag.mock.callCount(), 1);
+    t.assert.equal(dragend.mock.callCount(), 1);
+
+    map.remove();
+  });
+
   await t.test(
     'DragPanHandler captures mousemove events during a mouse-triggered drag (receives them even if they occur outside the map)',
     t => {
-      const { map } = createMap();
+      const { map } = createMap({ bubbleEventsToMap: true });
 
       const dragstart = t.mock.fn();
       const drag = t.mock.fn();
@@ -85,7 +117,7 @@ test('DragPanHandler', async t => {
   await t.test(
     'DragPanHandler fires dragstart, drag, and dragend events at appropriate times in response to a touch-triggered drag',
     t => {
-      const { map } = createMap();
+      const { map } = createMap({ bubbleEventsToMap: true });
 
       const dragstart = t.mock.fn();
       const drag = t.mock.fn();
@@ -120,7 +152,7 @@ test('DragPanHandler', async t => {
   await t.test(
     'DragPanHandler captures touchmove events during a mouse-triggered drag (receives them even if they occur outside the map)',
     t => {
-      const { map } = createMap();
+      const { map } = createMap({ bubbleEventsToMap: true });
 
       const dragstart = t.mock.fn();
       const drag = t.mock.fn();
@@ -153,7 +185,7 @@ test('DragPanHandler', async t => {
   );
 
   await t.test('DragPanHandler prevents mousemove events from firing during a drag (#1555)', t => {
-    const { map } = createMap();
+    const { map } = createMap({ bubbleEventsToMap: true });
 
     const mousemove = t.mock.fn();
     map.on('mousemove', mousemove);
@@ -173,7 +205,7 @@ test('DragPanHandler', async t => {
   });
 
   await t.test('DragPanHandler ends a mouse-triggered drag if the window blurs', t => {
-    const { map } = createMap();
+    const { map } = createMap({ bubbleEventsToMap: true });
 
     const dragend = t.mock.fn();
     map.on('dragend', dragend);
@@ -191,7 +223,7 @@ test('DragPanHandler', async t => {
   });
 
   await t.test('DragPanHandler ends a touch-triggered drag if the window blurs', t => {
-    const { map } = createMap();
+    const { map } = createMap({ bubbleEventsToMap: true });
 
     const dragend = t.mock.fn();
     map.on('dragend', dragend);
@@ -228,7 +260,7 @@ test('DragPanHandler', async t => {
 
   await t.test('DragPanHandler can interleave with another handler', t => {
     // https://github.com/mapbox/mapbox-gl-js/issues/6106
-    const { map } = createMap();
+    const { map } = createMap({ bubbleEventsToMap: true });
 
     const dragstart = t.mock.fn();
     const drag = t.mock.fn();
@@ -343,7 +375,7 @@ test('DragPanHandler', async t => {
   );
 
   await t.test('DragPanHandler does not begin a drag on right button mousedown', t => {
-    const { map, gestures } = createMap();
+    const { map, gestures } = createMap({ bubbleEventsToMap: true });
     gestures.dragRotate.disable();
 
     const dragstart = t.mock.fn();
@@ -376,7 +408,7 @@ test('DragPanHandler', async t => {
   });
 
   await t.test('DragPanHandler does not end a drag on right button mouseup', t => {
-    const { map, gestures } = createMap();
+    const { map, gestures } = createMap({ bubbleEventsToMap: true });
     gestures.dragRotate.disable();
 
     const dragstart = t.mock.fn();
@@ -487,7 +519,7 @@ test('DragPanHandler', async t => {
   Promise.all(
     ['dragstart', 'drag'].map(async event => {
       await t.test(`DragPanHandler can be disabled on ${event} (#2419)`, t => {
-        const { map, gestures } = createMap();
+        const { map, gestures } = createMap({ bubbleEventsToMap: true });
 
         map.on(event, () => gestures.dragPan.disable());
 

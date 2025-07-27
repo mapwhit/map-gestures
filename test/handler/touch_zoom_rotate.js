@@ -15,7 +15,7 @@ test('TouchZoomRotateHandler', async t => {
   await t.test(
     'TouchZoomRotateHandler fires zoomstart, zoom, and zoomend events at appropriate times in response to a pinch-zoom gesture',
     t => {
-      const { map } = createMap();
+      const { map, gestures } = createMap();
 
       const zoomstart = t.mock.fn();
       const zoom = t.mock.fn();
@@ -24,6 +24,14 @@ test('TouchZoomRotateHandler', async t => {
       map.on('zoomstart', zoomstart);
       map.on('zoom', zoom);
       map.on('zoomend', zoomend);
+
+      const zoomstartGestures = t.mock.fn();
+      const zoomGestures = t.mock.fn();
+      const zoomendGestures = t.mock.fn();
+
+      gestures.on('zoomstart', zoomstartGestures);
+      gestures.on('zoom', zoomGestures);
+      gestures.on('zoomend', zoomendGestures);
 
       simulate.touchstart(map.getCanvas(), {
         touches: [
@@ -63,6 +71,11 @@ test('TouchZoomRotateHandler', async t => {
       t.assert.equal(zoomstart.mock.callCount(), 1);
       t.assert.equal(zoom.mock.callCount(), 2);
       t.assert.equal(zoomend.mock.callCount(), 1);
+
+      // zoom events are always fired by Map
+      t.assert.equal(zoomstartGestures.mock.callCount(), 0);
+      t.assert.equal(zoomGestures.mock.callCount(), 0);
+      t.assert.equal(zoomendGestures.mock.callCount(), 0);
 
       map.remove();
     }
@@ -127,7 +140,7 @@ test('TouchZoomRotateHandler', async t => {
   await t.test(
     'TouchZoomRotateHandler does not begin a gesture if preventDefault is called on the touchstart event',
     t => {
-      const { map } = createMap();
+      const { map } = createMap({ bubbleEventsToMap: true });
 
       map.on('touchstart', e => e.preventDefault());
 
