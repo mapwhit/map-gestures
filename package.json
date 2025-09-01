@@ -20,9 +20,9 @@
     "touch gestures"
   ],
   "dependencies": {
-    "@mapbox/point-geometry": "^1.1.0",
     "@mapbox/unitbezier": "^0.0.1",
-    "@mapwhit/events": "^0.0.1"
+    "@mapwhit/events": "^0.0.1",
+    "@mapwhit/point-geometry": "^1.0.2"
   },
   "devDependencies": {
     "@biomejs/biome": "2.1.2",
