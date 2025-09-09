@@ -21,7 +21,7 @@
   ],
   "dependencies": {
     "@mapbox/unitbezier": "^0.0.1",
-    "@mapwhit/events": "^0.0.1",
+    "@mapwhit/events": "^1.0.0",
     "@mapwhit/point-geometry": "^1.0.2"
   },
   "devDependencies": {
