@@ -20,13 +20,13 @@
     "touch gestures"
   ],
   "dependencies": {
-    "@mapbox/point-geometry": "^1.1.0",
     "@mapbox/unitbezier": "^0.0.1",
-    "@mapwhit/events": "^0.0.1"
+    "@mapwhit/events": "^0.0.1",
+    "@mapwhit/point-geometry": "^1.0.2"
   },
   "devDependencies": {
     "@biomejs/biome": "2.1.2",
-    "@mapwhit/tilerenderer": "^0.51.0",
+    "@mapwhit/tilerenderer": "~1",
     "canvas": "^3.1.0",
     "gl": "^8.1.6",
     "jsdom": "^26.1.0"
