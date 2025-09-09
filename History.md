@@ -1,4 +1,12 @@
 
+1.0.1 / 2025-09-09
+==================
+
+ * upgrade `@mapwhit/events` to 1.0.0
+ * upgrade biome to 2.2.3
+ * upgrade tilerenderer used for testing
+ * replace `@mapbox/point-geometry` with `@mapwhit/point-geometry`
+
 1.0.0 / 2025-07-27
 ==================
 
